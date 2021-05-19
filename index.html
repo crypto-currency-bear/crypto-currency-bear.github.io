@@ -1,11 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Page Title</title>
+    <title>주식, 코인 물타기 계산기</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
 </head>
 <body>
 
-<h1>This is a body</h1>
+<div id="app">
+    <v-card>
+        <v-card-title>
+            <span>현재 보유</span>
+        </v-card-title>
+        <v-card-text>
+            <v-text-field
+                v-model="currentCurrency.averageBuyingPrice"
+                type="number"
+                label="매수 평균가"
+            ></v-text-field>
+            <v-text-field 
+                v-model="holdingQuantity"
+                type="number"
+                label="보유 수량"
+            ></v-text-field>
+            <v-text-field
+                v-model="buyingPrice"
+                type="number"
+                label="매수 금액"
+            ></v-text-field>
+        </v-card-text>
+    </v-card>
+</div>
 
 </body>
 </html>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+          currentCurrency: {
+              averageBuyingPrice: null,
+              holdingQuantity: null,
+              buyingPrice: null
+          }
+        },
+        computed: {
+            holdingQuantity: {
+                set (val) {
+                    this.currentCurrency.holdingQuantity = val  
+                },
+                get () {
+                    if (!this.currentCurrency.buyingPrice || !this.currentCurrency.averageBuyingPrice) {
+                        return null
+                    }
+
+                    return this.currentCurrency.buyingPrice / this.currentCurrency.averageBuyingPrice
+                }
+            },
+            buyingPrice: {
+                set (val) {
+                    this.currentCurrency.buyingPrice = val
+                },
+                get () {
+                    if (!this.currentCurrency.averageBuyingPrice || !this.currentCurrency.holdingQuantity) {
+                        return null
+                    }
+
+                    return this.currentCurrency.averageBuyingPrice * this.currentCurrency.holdingQuantity
+                }
+            }
+        },
+        vuetify: new Vuetify()
+    })
+</script>
