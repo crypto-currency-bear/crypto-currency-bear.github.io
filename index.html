@@ -31,6 +31,61 @@
             ></v-text-field>
         </v-card-text>
     </v-card>
+
+    <div
+        v-for="(v, i) in currenciesToAdd"
+    >
+        <v-card
+            id="i"
+        >
+            <v-card-title>
+                <span>추가 매수</span>
+            </v-card-title>
+
+            <v-card-text>
+                <v-text-field
+                    v-model="v.buyingPrice"
+                    type="number"
+                    label="단가"
+                ></v-text-field>
+                <v-text-field 
+                    :value="v.holdingQuantity"
+                    type="number"
+                    label="보유 수량"
+                    @input="quantity => onInputHoldingQuantityToAdd(v, quantity)"
+                ></v-text-field>
+                <v-text-field
+                    :value="v.totalBuyingPrice"
+                    type="number"
+                    label="총 매수 금액"
+                    @input="price => onInputTotalBuyingPriceToAdd(v, price)"
+                ></v-text-field>
+            </v-card-text>
+        </v-card>
+    </div>
+
+    <v-card>
+        <v-card-title>
+            <span>결과</span>
+        </v-card-title>
+        <v-card-text>
+            <v-text-field
+                v-model="resultCurrency.averageBuyingPrice"
+                type="number"
+                label="매수 평균가"
+            ></v-text-field>
+            <v-text-field 
+                v-model="resultCurrency.totalHoldingQuantity"
+                type="number"
+                label="보유 수량"
+            ></v-text-field>
+            <v-text-field
+                v-model="resultCurrency.totalBuyingPrice"
+                type="number"
+                label="매수 금액"
+            ></v-text-field>
+        </v-card-text>
+    </v-card>
 </div>
 
 </body>
@@ -41,39 +96,72 @@
 <script>
     const app = new Vue({
         el: '#app',
-        data: {
-          currentCurrency: {
-              averageBuyingPrice: null,
-              holdingQuantity: null,
-              buyingPrice: null
-          }
+        vuetify: new Vuetify(),
+        data () {
+            return {
+                currentCurrency: {
+                    averageBuyingPrice: null,
+                    holdingQuantity: null,
+                    buyingPrice: null
+                },
+                currenciesToAdd: [ this.getInitCryptoCurrency() ]
+            }
         },
         computed: {
             holdingQuantity: {
                 set (val) {
-                    this.currentCurrency.holdingQuantity = val  
+                    this.currentCurrency.holdingQuantity = val
+
+                    if (this.currentCurrency.averageBuyingPrice && this.currentCurrency.holdingQuantity) {
+                        this.currentCurrency.buyingPrice = this.currentCurrency.averageBuyingPrice * this.currentCurrency.holdingQuantity
+                    }
                 },
                 get () {
-                    if (!this.currentCurrency.buyingPrice || !this.currentCurrency.averageBuyingPrice) {
-                        return null
-                    }
-
-                    return this.currentCurrency.buyingPrice / this.currentCurrency.averageBuyingPrice
+                    return this.currentCurrency.holdingQuantity
                 }
             },
             buyingPrice: {
                 set (val) {
                     this.currentCurrency.buyingPrice = val
+
+                    if (this.currentCurrency.averageBuyingPrice && this.currentCurrency.holdingQuantity) {
+                        this.currentCurrency.holdingQuantity = this.currentCurrency.averageBuyingPrice * this.currentCurrency.holdingQuantity
+                    }
                 },
                 get () {
-                    if (!this.currentCurrency.averageBuyingPrice || !this.currentCurrency.holdingQuantity) {
-                        return null
-                    }
+                    return this.currentCurrency.buyingPrice
+                }
+            },
+            resultCurrency () {
+                const totalHoldingQuantity = Number(this.currentCurrency.holdingQuantity) + this.currenciesToAdd.reduce((acc, curr) => acc + Number(curr.holdingQuantity), 0)
+                const totalBuyingPrice = Number(this.currentCurrency.buyingPrice) + this.currenciesToAdd.reduce((acc, curr) => {
+                    console.log(this.currentCurrency.buyingPrice, acc, Number(curr.totalBuyingPrice))
+                    return acc + Number(curr.totalBuyingPrice)
+                }, 0)
 
-                    return this.currentCurrency.averageBuyingPrice * this.currentCurrency.holdingQuantity
+                return {
+                    averageBuyingPrice: totalBuyingPrice / totalHoldingQuantity,
+                    totalHoldingQuantity: totalHoldingQuantity,
+                    totalBuyingPrice: totalBuyingPrice
                 }
             }
         },
-        vuetify: new Vuetify()
+        methods: {
+            onInputHoldingQuantityToAdd (currency, value) {
+                currency.holdingQuantity = value
+                currency.totalBuyingPrice = value ? currency.buyingPrice * currency.holdingQuantity : null
+            },
+            onInputTotalBuyingPriceToAdd (currency, value) {
+                currency.totalBuyingPrice = value
+                currency.holdingQuantity = value ? currency.totalBuyingPrice / currency.buyingPrice : null
+            }, 
+            getInitCryptoCurrency () {
+                return {
+                    buyingPrice: null,
+                    holdingQuantity: null,
+                    totalBuyingPrice: null
+                }
+            }
+        }
     })
 </script>
