@@ -53,16 +53,34 @@
         </v-col>
     </v-row>
 
-    <v-row>
-        <v-col>
-            <div
-                v-for="(v, i) in currenciesToAdd"
-            >
-                <v-card
-                    :id="i"
-                >
+    <div
+        v-for="(v, i) in currenciesToAdd"
+    >
+        <v-row>
+            <v-col>
+                <v-card :id="i">
                     <v-card-title>
                         <span>추가 매수</span>
+                        <v-btn
+                            v-if="i === 0"
+                            small
+                            tile
+                            absolute
+                            right
+                            @click="onClickAddCurrency"
+                        >
+                            +
+                        </v-btn>
+                        <v-btn
+                            v-if="i !== 0"
+                            small
+                            tile
+                            absolute
+                            right
+                            @click="onClickRemoveCurrency(i)"
+                        >
+                            -
+                        </v-btn>
                     </v-card-title>
 
                     <v-card-text>
@@ -95,9 +113,9 @@
                         </v-row>
                     </v-card-text>
                 </v-card>
-            </div>
-        </v-col>
-    </v-row>
+            </v-col>
+        </v-row>
+    </div>
 
     <v-row>
         <v-col>
