@@ -57,9 +57,7 @@ const app = new Vue({
       }
     },
     parseToInteger (value) {
-      const parsed = Number(value)
-
-      return parsed === NaN ? 0 : parsed
+      return Number(value) || 0
     }
   }
 })
