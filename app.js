@@ -9,19 +9,19 @@ const app = new Vue({
   },
   computed: {
     resultCurrency () {
-      const totalHoldingQuantity = Number(this.currentCurrency.holdingQuantity) + this.currenciesToAdd.reduce((acc, curr) => acc + Number(curr.holdingQuantity), 0)
-      const totalBuyingPrice = Number(this.currentCurrency.totalBuyingPrice) + this.currenciesToAdd.reduce((acc, curr) => acc + Number(curr.totalBuyingPrice), 0)
+      const totalHoldingQuantity = this.computeTotalHoldingQuantity()
+      const totalBuyingPrice = this.computeTotalBuyingPrice()
 
       return {
-          buyingPrice: totalBuyingPrice / totalHoldingQuantity,
-          totalHoldingQuantity: totalHoldingQuantity,
-          totalBuyingPrice: totalBuyingPrice
-        }
+        buyingPrice: totalBuyingPrice / totalHoldingQuantity,
+        totalHoldingQuantity: totalHoldingQuantity,
+        totalBuyingPrice: totalBuyingPrice
       }
+    }
   },
   methods: {
     onInputBuyingPrice (currency) {
-      currency.totalBuyingPrice = currency.buyingPrice ? currency.buyingPrice * currency.holdingQuantity : null
+      currency.totalBuyingPrice = currency.buyingPrice && currency.holdingQuantity ? currency.buyingPrice * currency.holdingQuantity : null
     },
     onInputHoldingQuantity (currency, value) {
       currency.holdingQuantity = value
@@ -31,12 +31,29 @@ const app = new Vue({
       currency.totalBuyingPrice = value
       currency.holdingQuantity = value ? currency.totalBuyingPrice / currency.buyingPrice : null
     },
+    computeTotalHoldingQuantity () {
+      const currHoldingQuantity = this.parseToInteger(this.currentCurrency.holdingQuantity)
+      const addedTotalHoldingQuantity = this.currenciesToAdd.reduce((acc, curr) => acc + this.parseToInteger(curr.holdingQuantity), 0)
+
+      return currHoldingQuantity + addedTotalHoldingQuantity
+    },
+    computeTotalBuyingPrice () {
+      const currTotalBuyingPrice = this.parseToInteger(this.currentCurrency.totalBuyingPrice)
+      const addedTotalBuyingPrice = this.currenciesToAdd.reduce((acc, curr) => acc + this.parseToInteger(curr.totalBuyingPrice), 0)
+
+      return currTotalBuyingPrice + addedTotalBuyingPrice
+    },
     getInitCryptoCurrency () {
       return {
         buyingPrice: null,
         holdingQuantity: null,
         totalBuyingPrice: null
       }
+    },
+    parseToInteger (value) {
+      const parsed = Number(value)
+
+      return parsed === NaN ? 0 : parsed
     }
   }
 })

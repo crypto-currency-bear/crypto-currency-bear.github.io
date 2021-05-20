@@ -109,9 +109,10 @@
                     <v-row>
                         <v-col>
                             <v-text-field
-                                v-model="resultCurrency.averageBuyingPrice"
+                                v-model="resultCurrency.buyingPrice"
                                 type="number"
                                 label="매수 평균가"
+                                disabled
                             ></v-text-field>
                         </v-col>
                         <v-col>
@@ -119,6 +120,7 @@
                                 v-model="resultCurrency.totalHoldingQuantity"
                                 type="number"
                                 label="보유 수량"
+                                disabled
                             ></v-text-field>
                         </v-col>
                     </v-row>
@@ -128,6 +130,7 @@
                                 v-model="resultCurrency.totalBuyingPrice"
                                 type="number"
                                 label="매수 금액"
+                                disabled
                             ></v-text-field>
                         </v-col>
                     </v-row>
