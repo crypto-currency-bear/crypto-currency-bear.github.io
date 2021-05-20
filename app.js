@@ -9,8 +9,8 @@ const app = new Vue({
   },
   computed: {
     resultCurrency () {
-      const totalHoldingQuantity = this.computeTotalHoldingQuantity()
-      const totalBuyingPrice = this.computeTotalBuyingPrice()
+      const totalHoldingQuantity = this.calculateTotalHoldingQuantity()
+      const totalBuyingPrice = this.calculateTotalBuyingPrice()
 
       return {
         buyingPrice: totalBuyingPrice / totalHoldingQuantity,
@@ -37,13 +37,13 @@ const app = new Vue({
     onClickRemoveCurrency (index) {
       this.currenciesToAdd = this.currenciesToAdd.filter((v, i) => i !== index)
     },
-    computeTotalHoldingQuantity () {
+    calculateTotalHoldingQuantity () {
       const currHoldingQuantity = this.parseToInteger(this.currentCurrency.holdingQuantity)
       const addedTotalHoldingQuantity = this.currenciesToAdd.reduce((acc, curr) => acc + this.parseToInteger(curr.holdingQuantity), 0)
 
       return currHoldingQuantity + addedTotalHoldingQuantity
     },
-    computeTotalBuyingPrice () {
+    calculateTotalBuyingPrice () {
       const currTotalBuyingPrice = this.parseToInteger(this.currentCurrency.totalBuyingPrice)
       const addedTotalBuyingPrice = this.currenciesToAdd.reduce((acc, curr) => acc + this.parseToInteger(curr.totalBuyingPrice), 0)
 
