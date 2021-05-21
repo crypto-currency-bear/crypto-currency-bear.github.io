@@ -32,7 +32,7 @@ const app = new Vue({
       currency.holdingQuantity = value ? currency.totalBuyingPrice / currency.buyingPrice : null
     },
     onClickAddCurrency () {
-      this.currenciesToAdd = this.currenciesToAdd.concat([{ ...this.getInitCryptoCurrency() }])
+      this.currenciesToAdd = [{ ...this.getInitCryptoCurrency() }].concat(this.currenciesToAdd)
     },
     onClickRemoveCurrency (index) {
       this.currenciesToAdd = this.currenciesToAdd.filter((v, i) => i !== index)
