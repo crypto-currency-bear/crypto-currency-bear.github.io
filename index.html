@@ -53,14 +53,14 @@
         <v-col>
             <v-card>
                 <v-card-title>
-                    <v-row>
-                        <v-col cols="11" sm="11">
+                    <v-row justify="center">
+                        <v-col cols="auto">
                             추가 매수
                         </v-col>
-                        <v-col cols="1" sm="1">
+                        <v-spacer></v-spacer>
+                        <v-col cols="auto">
                             <v-btn
                                 v-if="i === 0"
-                                small
                                 tile
                                 @click="onClickAddCurrency"
                             >
@@ -68,7 +68,6 @@
                             </v-btn>
                             <v-btn
                                 v-if="i !== 0"
-                                small
                                 tile
                                 @click="onClickRemoveCurrency(i)"
                             >
