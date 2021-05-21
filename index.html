@@ -11,150 +11,110 @@
 
 <v-container
     id="app"
-    fluid
 >
+    <h2>현재 보유</h2>
     <v-row>
-        <v-col>
-            <v-card>
-                <v-card-title>
-                    <span>현재 보유</span>
-                </v-card-title>
-                <v-card-text>
-                    <v-row>
-                        <v-col>
-                            <v-text-field
-                                v-model="currentCurrency.buyingPrice"
-                                type="number"
-                                label="매수 평균가"
-                                @input="onInputBuyingPrice(currentCurrency)"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col>
-                            <v-text-field
-                                v-model="currentCurrency.holdingQuantity"
-                                type="number"
-                                label="보유 수량"
-                                @input="val => onInputHoldingQuantity(currentCurrency, val)"
-                            ></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-text-field
-                                v-model="currentCurrency.totalBuyingPrice"
-                                type="number"
-                                label="매수 금액"
-                                @input="val => onInputTotalBuyingPrice(currentCurrency, val)"
-                            ></v-text-field>
-                        </v-col>
-                    </v-row>
-                </v-card-text>
-            </v-card>
+        <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+            <v-text-field
+                v-model="currentCurrency.buyingPrice"
+                type="number"
+                label="매수 평균가"
+                @input="onInputBuyingPrice(currentCurrency)"
+            ></v-text-field>
+        </v-col>
+        <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+            <v-text-field
+                v-model="currentCurrency.holdingQuantity"
+                type="number"
+                label="보유 수량"
+                @input="val => onInputHoldingQuantity(currentCurrency, val)"
+            ></v-text-field>
+        </v-col>
+        <v-col cols="12" md="6" lg="6" xl="6">
+            <v-text-field
+                v-model="currentCurrency.totalBuyingPrice"
+                type="number"
+                label="매수 금액"
+                @input="val => onInputTotalBuyingPrice(currentCurrency, val)"
+            ></v-text-field>
         </v-col>
     </v-row>
 
+    <h2>추가 매수</h2>
     <div
         v-for="(v, i) in currenciesToAdd"
     >
-        <v-row>
-            <v-col>
-                <v-card :id="i">
-                    <v-card-title>
-                        <span>추가 매수</span>
-                        <v-btn
-                            v-if="i === 0"
-                            small
-                            tile
-                            absolute
-                            right
-                            @click="onClickAddCurrency"
-                        >
-                            +
-                        </v-btn>
-                        <v-btn
-                            v-if="i !== 0"
-                            small
-                            tile
-                            absolute
-                            right
-                            @click="onClickRemoveCurrency(i)"
-                        >
-                            -
-                        </v-btn>
-                    </v-card-title>
-
-                    <v-card-text>
-                        <v-row>
-                            <v-col>
-                                <v-text-field
-                                    v-model="v.buyingPrice"
-                                    type="number"
-                                    label="단가"
-                                    @input="onInputBuyingPrice(v)"
-                                ></v-text-field>
-                            </v-col>
-                            <v-col>
-                                <v-text-field
-                                    :value="v.holdingQuantity"
-                                    type="number"
-                                    label="보유 수량"
-                                    @input="quantity => onInputHoldingQuantity(v, quantity)"
-                                ></v-text-field>
-                            </v-col>
-                        </v-row>
-                        <v-row>
-                            <v-col>
-                                <v-text-field
-                                    :value="v.totalBuyingPrice"
-                                    type="number"
-                                    label="총 매수 금액"
-                                    @input="price => onInputTotalBuyingPrice(v, price)"
-                                ></v-text-field>
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
+        <v-row :id="i">
+            <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+                <v-text-field
+                    v-model="v.buyingPrice"
+                    type="number"
+                    label="단가"
+                    @input="onInputBuyingPrice(v)"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+                <v-text-field
+                    :value="v.holdingQuantity"
+                    type="number"
+                    label="보유 수량"
+                    @input="quantity => onInputHoldingQuantity(v, quantity)"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="11" md="5" lg="5" xl="5">
+                <v-text-field
+                    :value="v.totalBuyingPrice"
+                    type="number"
+                    label="총 매수 금액"
+                    @input="price => onInputTotalBuyingPrice(v, price)"
+                ></v-text-field>
+            </v-col>
+            <v-col cols="1" sm="1" md="1" lg="1" xl="1">
+                <v-btn
+                    v-if="i === 0"
+                    small
+                    tile
+                    @click="onClickAddCurrency"
+                >
+                    +
+                </v-btn>
+                <v-btn
+                    v-if="i !== 0"
+                    small
+                    tile
+                    @click="onClickRemoveCurrency(i)"
+                >
+                    -
+                </v-btn>
             </v-col>
         </v-row>
     </div>
 
+    <h2>결과</h2>
     <v-row>
-        <v-col>
-            <v-card>
-                <v-card-title>
-                    <span>결과</span>
-                </v-card-title>
-                <v-card-text>
-                    <v-row>
-                        <v-col>
-                            <v-text-field
-                                v-model="resultCurrency.buyingPrice"
-                                type="number"
-                                label="매수 평균가"
-                                disabled
-                            ></v-text-field>
-                        </v-col>
-                        <v-col>
-                            <v-text-field
-                                v-model="resultCurrency.totalHoldingQuantity"
-                                type="number"
-                                label="보유 수량"
-                                disabled
-                            ></v-text-field>
-                        </v-col>
-                    </v-row>
-                    <v-row>
-                        <v-col>
-                            <v-text-field
-                                v-model="resultCurrency.totalBuyingPrice"
-                                type="number"
-                                label="매수 금액"
-                                disabled
-                            ></v-text-field>
-                        </v-col>
-                    </v-row>
-                </v-card-text>
-            </v-card>
+        <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+            <v-text-field
+                v-model="resultCurrency.buyingPrice"
+                type="number"
+                label="매수 평균가"
+                disabled
+            ></v-text-field>
+        </v-col>
+        <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+            <v-text-field
+                v-model="resultCurrency.totalHoldingQuantity"
+                type="number"
+                label="보유 수량"
+                disabled
+            ></v-text-field>
+        </v-col>
+        <v-col cols="12" md="6" lg="6" xl="6">
+            <v-text-field
+                v-model="resultCurrency.totalBuyingPrice"
+                type="number"
+                label="매수 금액"
+                disabled
+            ></v-text-field>
         </v-col>
     </v-row>
 </v-container>
