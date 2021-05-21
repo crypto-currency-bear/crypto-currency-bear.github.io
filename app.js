@@ -20,7 +20,7 @@ const app = new Vue({
     }
   },
   mounted () {
-    this.focusOnCurrentBuyingPrice()
+    this.focusCurrentBuyingPrice()
   },
   methods: {
     onInputBuyingPrice (currency) {
