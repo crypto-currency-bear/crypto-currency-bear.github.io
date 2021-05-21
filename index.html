@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
     <title>주식, 코인 물타기 계산기</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" charset="UTF-8">
 </head>
 <style>
     @media only screen and (min-width: 600px) {
@@ -16,8 +16,7 @@
         }
     }
 </style>
-<body>
-
+<body class="body-2">
 <v-container id="app" fluid style="max-width: 700px;">
     <v-row>
         <v-col>
@@ -28,7 +27,7 @@
 
     <v-row>
         <v-col>
-            <v-card>
+            <v-card color="#e05a5a" dark>
                 <v-card-title>현재 보유</v-card-title>
                 <v-card-text>
                     <v-row>
@@ -128,7 +127,7 @@
 
     <v-row class="sticky-bottom" style="background-color: white;">
         <v-col>
-            <v-card>
+            <v-card color="#3f5682" dark>
                 <v-card-title>결과</v-card-title>
                 <v-card-text>
                     <v-row>
