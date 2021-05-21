@@ -7,6 +7,15 @@
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
 </head>
+<style>
+    @media only screen and (min-width: 600px) {
+        .sticky-bottom {
+            position: -webkit-sticky;
+            position: sticky;
+            bottom: 0;
+        }
+    }
+</style>
 <body>
 
 <v-container id="app" fluid style="max-width: 700px;">
@@ -17,7 +26,7 @@
         </v-col>
     </v-row>
 
-    <v-row style="position: -webkit-sticky; position: sticky; top: 0; z-index: 1;">
+    <v-row>
         <v-col>
             <v-card>
                 <v-card-title>현재 보유</v-card-title>
@@ -117,7 +126,7 @@
         </v-col>
     </v-row>
 
-    <v-row style="position: -webkit-sticky; position: sticky; bottom: 0;">
+    <v-row class="sticky-bottom">
         <v-col>
             <v-card>
                 <v-card-title>결과</v-card-title>
