@@ -77,17 +77,29 @@
                         <v-col cols="auto">
                             <v-btn
                                 v-if="i === 0"
-                                tile
+                                class="mx-2"
+                                fab
+                                small
+                                depressed
+                                dark
+                                color="#009688"
                                 @click="onClickAddCurrency"
                             >
-                                +
+                              <v-icon dark>
+                                mdi-plus
+                              </v-icon>
                             </v-btn>
                             <v-btn
                                 v-if="i !== 0"
-                                tile
+                                fab
+                                dark
+                                small
+                                color="#ff5252"
                                 @click="onClickRemoveCurrency(i)"
                             >
-                                -
+                              <v-icon dark>
+                                mdi-minus
+                              </v-icon>
                             </v-btn>
                         </v-col>
                     </v-row>
