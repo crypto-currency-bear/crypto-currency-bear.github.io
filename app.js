@@ -36,7 +36,7 @@ const app = new Vue({
     },
     onClickAddCurrency () {
       this.currenciesToAdd = [{ ...this.getInitCryptoCurrency() }].concat(this.currenciesToAdd)
-      this.focusOnAddedBuyingPrice()
+      this.focusFirstAddedBuyingPrice()
     },
     onClickRemoveCurrency (index) {
       this.currenciesToAdd = this.currenciesToAdd.filter((v, i) => i !== index)
@@ -63,10 +63,10 @@ const app = new Vue({
     parseToInteger (value) {
       return Number(value) || 0
     },
-    focusOnCurrentBuyingPrice () {
+    focusCurrentBuyingPrice () {
       this.$refs.currentBuyingPrice.focus()
     },
-    focusOnAddedBuyingPrice () {
+    focusFirstAddedBuyingPrice () {
       this.$refs.addedBuyingPrice[0].focus()
     }
   }
