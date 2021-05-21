@@ -9,12 +9,10 @@
 </head>
 <body>
 
-<v-container
-    id="app"
->
+<v-container id="app">
     <h2>현재 보유</h2>
     <v-row>
-        <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+        <v-col cols="12" sm="4">
             <v-text-field
                 v-model="currentCurrency.buyingPrice"
                 type="number"
@@ -22,7 +20,7 @@
                 @input="onInputBuyingPrice(currentCurrency)"
             ></v-text-field>
         </v-col>
-        <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+        <v-col cols="12" sm="4">
             <v-text-field
                 v-model="currentCurrency.holdingQuantity"
                 type="number"
@@ -30,7 +28,7 @@
                 @input="val => onInputHoldingQuantity(currentCurrency, val)"
             ></v-text-field>
         </v-col>
-        <v-col cols="12" md="6" lg="6" xl="6">
+        <v-col cols="12" sm="4">
             <v-text-field
                 v-model="currentCurrency.totalBuyingPrice"
                 type="number"
@@ -41,58 +39,57 @@
     </v-row>
 
     <h2>추가 매수</h2>
-    <div
+    <v-row
         v-for="(v, i) in currenciesToAdd"
+        :key="i"
     >
-        <v-row :id="i">
-            <v-col cols="6" sm="6" md="3" lg="3" xl="3">
-                <v-text-field
-                    v-model="v.buyingPrice"
-                    type="number"
-                    label="단가"
-                    @input="onInputBuyingPrice(v)"
-                ></v-text-field>
-            </v-col>
-            <v-col cols="6" sm="6" md="3" lg="3" xl="3">
-                <v-text-field
-                    :value="v.holdingQuantity"
-                    type="number"
-                    label="보유 수량"
-                    @input="quantity => onInputHoldingQuantity(v, quantity)"
-                ></v-text-field>
-            </v-col>
-            <v-col cols="11" md="5" lg="5" xl="5">
-                <v-text-field
-                    :value="v.totalBuyingPrice"
-                    type="number"
-                    label="총 매수 금액"
-                    @input="price => onInputTotalBuyingPrice(v, price)"
-                ></v-text-field>
-            </v-col>
-            <v-col cols="1" sm="1" md="1" lg="1" xl="1">
-                <v-btn
-                    v-if="i === 0"
-                    small
-                    tile
-                    @click="onClickAddCurrency"
-                >
-                    +
-                </v-btn>
-                <v-btn
-                    v-if="i !== 0"
-                    small
-                    tile
-                    @click="onClickRemoveCurrency(i)"
-                >
-                    -
-                </v-btn>
-            </v-col>
-        </v-row>
-    </div>
+        <v-col cols="12" sm="4">
+            <v-text-field
+                v-model="v.buyingPrice"
+                type="number"
+                label="단가"
+                @input="onInputBuyingPrice(v)"
+            ></v-text-field>
+        </v-col>
+        <v-col cols="12" sm="4">
+            <v-text-field
+                :value="v.holdingQuantity"
+                type="number"
+                label="보유 수량"
+                @input="quantity => onInputHoldingQuantity(v, quantity)"
+            ></v-text-field>
+        </v-col>
+        <v-col cols="11" sm="3">
+            <v-text-field
+                :value="v.totalBuyingPrice"
+                type="number"
+                label="총 매수 금액"
+                @input="price => onInputTotalBuyingPrice(v, price)"
+            ></v-text-field>
+        </v-col>
+        <v-col cols="1" sm="1" md="1" lg="1" xl="1">
+            <v-btn
+                v-if="i === 0"
+                small
+                tile
+                @click="onClickAddCurrency"
+            >
+                +
+            </v-btn>
+            <v-btn
+                v-if="i !== 0"
+                small
+                tile
+                @click="onClickRemoveCurrency(i)"
+            >
+                -
+            </v-btn>
+        </v-col>
+    </v-row>
 
     <h2>결과</h2>
     <v-row>
-        <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+        <v-col cols="12" sm="4">
             <v-text-field
                 v-model="resultCurrency.buyingPrice"
                 type="number"
@@ -100,7 +97,7 @@
                 disabled
             ></v-text-field>
         </v-col>
-        <v-col cols="6" sm="6" md="3" lg="3" xl="3">
+        <v-col cols="12" sm="4">
             <v-text-field
                 v-model="resultCurrency.totalHoldingQuantity"
                 type="number"
@@ -108,7 +105,7 @@
                 disabled
             ></v-text-field>
         </v-col>
-        <v-col cols="12" md="6" lg="6" xl="6">
+        <v-col cols="12" sm="4">
             <v-text-field
                 v-model="resultCurrency.totalBuyingPrice"
                 type="number"
