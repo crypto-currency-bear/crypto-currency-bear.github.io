@@ -25,6 +25,7 @@
                     <v-row>
                         <v-col cols="12" sm="4">
                             <v-text-field
+                                ref="currentBuyingPrice"
                                 v-model="currentCurrency.buyingPrice"
                                 type="number"
                                 label="매수 평균가"
@@ -87,6 +88,7 @@
                     <v-row>
                         <v-col cols="12" sm="4">
                             <v-text-field
+                                ref="addedBuyingPrice"
                                 v-model="v.buyingPrice"
                                 type="number"
                                 label="단가"

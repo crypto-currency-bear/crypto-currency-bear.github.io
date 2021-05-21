@@ -19,6 +19,9 @@ const app = new Vue({
       }
     }
   },
+  mounted () {
+    this.focusOnCurrentBuyingPrice()
+  },
   methods: {
     onInputBuyingPrice (currency) {
       currency.totalBuyingPrice = currency.buyingPrice && currency.holdingQuantity ? currency.buyingPrice * currency.holdingQuantity : null
@@ -33,6 +36,7 @@ const app = new Vue({
     },
     onClickAddCurrency () {
       this.currenciesToAdd = [{ ...this.getInitCryptoCurrency() }].concat(this.currenciesToAdd)
+      this.focusOnAddedBuyingPrice()
     },
     onClickRemoveCurrency (index) {
       this.currenciesToAdd = this.currenciesToAdd.filter((v, i) => i !== index)
@@ -58,6 +62,12 @@ const app = new Vue({
     },
     parseToInteger (value) {
       return Number(value) || 0
+    },
+    focusOnCurrentBuyingPrice () {
+      this.$refs.currentBuyingPrice.focus()
+    },
+    focusOnAddedBuyingPrice () {
+      this.$refs.addedBuyingPrice[0].focus()
     }
   }
 })
