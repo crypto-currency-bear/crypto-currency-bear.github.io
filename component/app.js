@@ -34,11 +34,11 @@ const app = new Vue({
       currency.totalEntryPrice = value
       currency.quantity = value ? currency.totalEntryPrice / currency.entryPrice : null
     },
-    onClickAddCurrency () {
+    onClickAddDesiredEntry () {
       this.desiredEntries = [{ ...this.getInitCryptoCurrency() }].concat(this.desiredEntries)
       this.focusFirstAddedBuyingPrice()
     },
-    onClickRemoveCurrency (index) {
+    onClickRemoveDesiredEntry (index) {
       this.desiredEntries = this.desiredEntries.filter((v, i) => i !== index)
     },
     calculateTotalQuantity () {
