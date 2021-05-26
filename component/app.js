@@ -20,7 +20,7 @@ const app = new Vue({
     }
   },
   mounted () {
-    this.focusCurrentBuyingPrice()
+    this.focusAccountEntryPrice()
   },
   methods: {
     onInputPrice (currency) {
@@ -36,7 +36,8 @@ const app = new Vue({
     },
     onClickAddDesiredEntry () {
       this.desiredEntries = [{ ...this.getInitCryptoCurrency() }].concat(this.desiredEntries)
-      this.focusFirstAddedBuyingPrice()
+
+      this.focusFirstDesiredEntry()
     },
     onClickRemoveDesiredEntry (index) {
       this.desiredEntries = this.desiredEntries.filter((v, i) => i !== index)
@@ -63,10 +64,10 @@ const app = new Vue({
     parseToInteger (value) {
       return Number(value) || 0
     },
-    focusCurrentBuyingPrice () {
+    focusAccountEntryPrice () {
       this.$refs.accountPrice.focus()
     },
-    focusFirstAddedBuyingPrice () {
+    focusFirstDesiredEntry () {
       this.$refs.desiredFirstEntries[0].focus()
     }
   }
