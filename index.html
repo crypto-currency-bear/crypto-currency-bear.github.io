@@ -33,27 +33,27 @@
                     <v-row>
                         <v-col cols="12" sm="4">
                             <v-text-field
-                                ref="currentBuyingPrice"
-                                v-model="currentCurrency.buyingPrice"
+                                ref="accountPrice"
+                                v-model="account.price"
                                 type="number"
                                 label="매수 평균가"
-                                @input="onInputBuyingPrice(currentCurrency)"
+                                @input="onInputPrice(account)"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="4">
                             <v-text-field
-                                v-model="currentCurrency.holdingQuantity"
+                                v-model="account.quantity"
                                 type="number"
                                 label="보유 수량"
-                                @input="val => onInputHoldingQuantity(currentCurrency, val)"
+                                @input="val => onInputQuantity(account, val)"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="4">
                             <v-text-field
-                                v-model="currentCurrency.totalBuyingPrice"
+                                v-model="account.totalPrice"
                                 type="number"
                                 label="매수 금액"
-                                @input="val => onInputTotalBuyingPrice(currentCurrency, val)"
+                                @input="val => onInputTotalPrice(account, val)"
                             ></v-text-field>
                         </v-col>
                     </v-row>
@@ -63,7 +63,7 @@
     </v-row>
 
     <v-row
-        v-for="(v, i) in currenciesToAdd"
+        v-for="(v, i) in desiredEntries"
         :key="i"
     >
         <v-col>
@@ -109,27 +109,27 @@
                     <v-row>
                         <v-col cols="12" sm="4">
                             <v-text-field
-                                ref="addedBuyingPrice"
-                                v-model="v.buyingPrice"
+                                ref="desiredFirstEntries"
+                                v-model="v.entryPrice"
                                 type="number"
                                 label="단가"
-                                @input="onInputBuyingPrice(v)"
+                                @input="onInputPrice(v)"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="4">
                             <v-text-field
-                                :value="v.holdingQuantity"
+                                :value="v.quantity"
                                 type="number"
                                 label="보유 수량"
-                                @input="quantity => onInputHoldingQuantity(v, quantity)"
+                                @input="quantity => onInputQuantity(v, quantity)"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="4">
                             <v-text-field
-                                :value="v.totalBuyingPrice"
+                                :value="v.totalEntryPrice"
                                 type="number"
                                 label="총 매수 금액"
-                                @input="price => onInputTotalBuyingPrice(v, price)"
+                                @input="totalEntryPrice => onInputTotalPrice(v, totalEntryPrice)"
                             ></v-text-field>
                         </v-col>
                     </v-row>
@@ -146,7 +146,7 @@
                     <v-row>
                         <v-col cols="12" sm="4">
                             <v-text-field
-                                v-model="resultCurrency.buyingPrice"
+                                v-model="calculatedAccount.entryPrice"
                                 type="number"
                                 label="매수 평균가"
                                 disabled
@@ -154,7 +154,7 @@
                         </v-col>
                         <v-col cols="12" sm="4">
                             <v-text-field
-                                v-model="resultCurrency.totalHoldingQuantity"
+                                v-model="calculatedAccount.quantity"
                                 type="number"
                                 label="보유 수량"
                                 disabled
@@ -162,7 +162,7 @@
                         </v-col>
                         <v-col cols="12" sm="4">
                             <v-text-field
-                                v-model="resultCurrency.totalBuyingPrice"
+                                v-model="calculatedAccount.totalEntryPrice"
                                 type="number"
                                 label="매수 금액"
                                 disabled
@@ -180,4 +180,4 @@
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-<script src="./app.js"></script>
+<script src="./component/app.js"></script>
