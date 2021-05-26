@@ -9,8 +9,8 @@ const app = new Vue({
   },
   computed: {
     calculatedAccount () {
-      const quantity = this.calculateTotalHoldingQuantity()
-      const totalEntryPrice = this.calculateTotalBuyingPrice()
+      const quantity = this.calculateTotalQuantity()
+      const totalEntryPrice = this.calculateTotalPrice()
 
       return {
         entryPrice: totalEntryPrice / quantity,
@@ -41,17 +41,17 @@ const app = new Vue({
     onClickRemoveCurrency (index) {
       this.desiredEntries = this.desiredEntries.filter((v, i) => i !== index)
     },
-    calculateTotalHoldingQuantity () {
-      const currHoldingQuantity = this.parseToInteger(this.account.quantity)
-      const addedTotalHoldingQuantity = this.desiredEntries.reduce((acc, curr) => acc + this.parseToInteger(curr.quantity), 0)
+    calculateTotalQuantity () {
+      const accountQuantity = this.parseToInteger(this.account.quantity)
+      const totalDesiredQuantity = this.desiredEntries.reduce((acc, curr) => acc + this.parseToInteger(curr.quantity), 0)
 
-      return currHoldingQuantity + addedTotalHoldingQuantity
+      return accountQuantity + totalDesiredQuantity
     },
-    calculateTotalBuyingPrice () {
-      const currTotalBuyingPrice = this.parseToInteger(this.account.totalEntryPrice)
-      const addedTotalBuyingPrice = this.desiredEntries.reduce((acc, curr) => acc + this.parseToInteger(curr.totalEntryPrice), 0)
+    calculateTotalPrice () {
+      const accountEntryPrice = this.parseToInteger(this.account.totalEntryPrice)
+      const desiredTotalEntryPrice = this.desiredEntries.reduce((acc, curr) => acc + this.parseToInteger(curr.totalEntryPrice), 0)
 
-      return currTotalBuyingPrice + addedTotalBuyingPrice
+      return accountEntryPrice + desiredTotalEntryPrice
     },
     getInitCryptoCurrency () {
       return {
