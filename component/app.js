@@ -24,7 +24,7 @@ const app = new Vue({
   },
   methods: {
     onInputPrice (currency) {
-      currency.totalEntryPrice = currency.entryPrice && currency.quantity ? currency.entryPrice * currency.quantity : null
+      currency.totalEntryPrice = currency.entryPrice || currency.quantity ? currency.entryPrice * currency.quantity : null
     },
     onInputQuantity (currency, value) {
       currency.quantity = value
