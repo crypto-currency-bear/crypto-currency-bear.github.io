@@ -50,7 +50,7 @@
                         </v-col>
                         <v-col cols="12" sm="4">
                             <v-text-field
-                                v-model="account.totalPrice"
+                                v-model="account.totalEntryPrice"
                                 type="number"
                                 label="매수 금액"
                                 @input="val => onInputTotalPrice(account, val)"
@@ -83,7 +83,7 @@
                                 depressed
                                 dark
                                 color="#009688"
-                                @click="onClickAddCurrency"
+                                @click="onClickAddDesiredEntry"
                             >
                               <v-icon dark>
                                 mdi-plus
@@ -96,7 +96,7 @@
                                 small
                                 depressed
                                 color="#ff5252"
-                                @click="onClickRemoveCurrency(i)"
+                                @click="onClickRemoveDesiredEntry(i)"
                             >
                               <v-icon dark>
                                 mdi-minus
