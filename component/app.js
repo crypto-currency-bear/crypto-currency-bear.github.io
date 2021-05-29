@@ -34,10 +34,25 @@ const app = new Vue({
       currency.totalEntryPrice = value
       currency.quantity = value ? currency.totalEntryPrice / currency.entryPrice : null
     },
+    onClickResetAccount () {
+      this.account = { ...this.getInitCryptoCurrency() }
+      this.focusAccountEntryPrice()
+    },
+    onClickResetDesiredEntry (index) {
+      this.desiredEntries = this.desiredEntries.map((v, i) => {
+        if (i === index) {
+          v = { ...this.getInitCryptoCurrency() }
+        }
+
+        return v
+      })
+
+      this.focusDesiredEntry(index)
+    },
     onClickAddDesiredEntry () {
       this.desiredEntries = [{ ...this.getInitCryptoCurrency() }].concat(this.desiredEntries)
 
-      this.focusFirstDesiredEntry()
+      this.focusDesiredEntry(0)
     },
     onClickRemoveDesiredEntry (index) {
       this.desiredEntries = this.desiredEntries.filter((v, i) => i !== index)
@@ -67,8 +82,8 @@ const app = new Vue({
     focusAccountEntryPrice () {
       this.$refs.accountPrice.focus()
     },
-    focusFirstDesiredEntry () {
-      this.$refs.desiredFirstEntries[0].focus()
+    focusDesiredEntry (index) {
+      this.$refs.desiredFirstEntries[index].focus()
     }
   }
 })
