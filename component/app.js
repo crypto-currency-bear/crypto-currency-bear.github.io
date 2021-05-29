@@ -1,3 +1,8 @@
+const localStorageKey = {
+  account: 'account',
+  desiredEntries: 'desiredEntries'
+}
+
 const app = new Vue({
   el: '#app',
   vuetify: new Vuetify(),
@@ -13,26 +18,33 @@ const app = new Vue({
       const totalEntryPrice = this.calculateTotalPrice()
 
       return {
-        entryPrice: totalEntryPrice / quantity,
+        entryPrice: this.parseToInteger(totalEntryPrice / quantity),
         quantity: quantity,
         totalEntryPrice: totalEntryPrice
       }
     }
   },
   mounted () {
+    this.initialize()
     this.focusAccountEntryPrice()
   },
   methods: {
     onInputPrice (currency) {
       currency.totalEntryPrice = currency.entryPrice || currency.quantity ? currency.entryPrice * currency.quantity : null
+
+      this.saveAll()
     },
     onInputQuantity (currency, value) {
       currency.quantity = value
       currency.totalEntryPrice = value ? currency.entryPrice * currency.quantity : null
+
+      this.saveAll()
     },
     onInputTotalPrice (currency, value) {
       currency.totalEntryPrice = value
       currency.quantity = value ? currency.totalEntryPrice / currency.entryPrice : null
+
+      this.saveAll()
     },
     onClickResetAccount () {
       this.account = { ...this.getInitCryptoCurrency() }
@@ -84,6 +96,29 @@ const app = new Vue({
     },
     focusDesiredEntry (index) {
       this.$refs.desiredFirstEntries[index].focus()
+    },
+    initialize () {
+      const localStorageKeys = Object.keys(localStorage)
+
+      if (localStorageKeys.indexOf(localStorageKey.account) > -1) {
+        try {
+          this.account = JSON.parse(localStorage.getItem(localStorageKey.account))
+        } catch (error) {
+          localStorage.removeItem(localStorageKey.account)
+        }
+      }
+
+      if (localStorageKeys.indexOf(localStorageKey.desiredEntries) > -1) {
+        try {
+          this.desiredEntries = JSON.parse(localStorage.getItem(localStorageKey.desiredEntries))
+        } catch (error) {
+          localStorage.removeItem(localStorageKey.desiredEntries)
+         }
+      }
+    },
+    saveAll () {
+      localStorage.setItem(localStorageKey.account, JSON.stringify(this.account))
+      localStorage.setItem(localStorageKey.desiredEntries, JSON.stringify(this.desiredEntries))
     }
   }
 })
