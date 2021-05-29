@@ -28,7 +28,21 @@
     <v-row>
         <v-col>
             <v-card color="#e05a5a" dark>
-                <v-card-title>현재 보유</v-card-title>
+                <v-card-title>
+                    <span>현재 보유</span>
+                    <span>
+                        <v-btn
+                            icon
+                            fab
+                            small
+                            depressed
+                            color="#fff"
+                            @click="onClickResetAccount"
+                        >
+                            <v-icon>mdi-replay</v-icon>
+                        </v-btn>
+                    </span>
+                </v-card-title>
                 <v-card-text>
                     <v-row>
                         <v-col cols="6" sm="4">
@@ -77,7 +91,18 @@
                 <v-card-title>
                     <v-row justify="center">
                         <v-col cols="auto">
-                            추가 매수
+                            <span>추가 매수</span>
+                            <span>
+                                <v-btn
+                                    icon
+                                    small
+                                    depressed
+                                    color="#000"
+                                    @click="onClickResetDesiredEntry(i)"
+                                >
+                                    <v-icon>mdi-replay</v-icon>
+                                </v-btn>
+                            </span>
                         </v-col>
                         <v-spacer></v-spacer>
                         <v-col cols="auto">
