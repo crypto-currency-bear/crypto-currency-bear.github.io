@@ -27,7 +27,12 @@
 
     <v-row>
         <v-col>
-            <v-card color="#e05a5a" dark>
+            <v-card
+                color="#e05a5a"
+                dark
+                tile
+                outlined
+            >
                 <v-card-title>
                     <span>현재 보유</span>
                 </v-card-title>
@@ -75,7 +80,9 @@
         :key="i"
     >
         <v-col>
-            <v-card>
+            <v-card
+                outlined
+            >
                 <v-card-title>
                     <v-row justify="center">
                         <v-col cols="auto">
@@ -85,12 +92,7 @@
                         <v-col cols="auto">
                             <v-btn
                                 v-if="i === 0"
-                                class="mx-2"
-                                fab
-                                small
-                                depressed
-                                dark
-                                color="#009688"
+                                icon
                                 @click="onClickAddDesiredEntry"
                             >
                               <v-icon dark>
@@ -99,11 +101,7 @@
                             </v-btn>
                             <v-btn
                                 v-if="desiredEntries.length > 1"
-                                fab
-                                dark
-                                small
-                                depressed
-                                color="#ff5252"
+                                icon
                                 @click="onClickRemoveDesiredEntry(i)"
                             >
                               <v-icon dark>
@@ -154,7 +152,12 @@
 
     <v-row class="sticky-bottom" style="background-color: white;">
         <v-col>
-            <v-card color="#3f5682" dark>
+            <v-card
+                color="#3f5682"
+                dark
+                tile
+                outlined
+            >
                 <v-card-title>결과</v-card-title>
                 <v-card-text>
                     <v-row>
