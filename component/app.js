@@ -46,21 +46,6 @@ const app = new Vue({
 
       this.saveAll()
     },
-    onClickResetAccount () {
-      this.account = { ...this.getInitCryptoCurrency() }
-      this.focusAccountEntryPrice()
-    },
-    onClickResetDesiredEntry (index) {
-      this.desiredEntries = this.desiredEntries.map((v, i) => {
-        if (i === index) {
-          v = { ...this.getInitCryptoCurrency() }
-        }
-
-        return v
-      })
-
-      this.focusDesiredEntry(index)
-    },
     onClickAddDesiredEntry () {
       this.desiredEntries = [{ ...this.getInitCryptoCurrency() }].concat(this.desiredEntries)
 
