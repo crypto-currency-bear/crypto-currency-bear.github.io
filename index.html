@@ -46,6 +46,7 @@
                                 label="매수 평균가"
                                 hide-details
                                 dense
+                                clearable
                                 @input="onInputPrice(account)"
                             ></v-text-field>
                         </v-col>
@@ -56,6 +57,7 @@
                                 label="보유 수량"
                                 hide-details
                                 dense
+                                clearable
                                 @input="val => onInputQuantity(account, val)"
                             ></v-text-field>
                         </v-col>
@@ -66,6 +68,7 @@
                                 label="매수 금액"
                                 hide-details
                                 dense
+                                clearable
                                 @input="val => onInputTotalPrice(account, val)"
                             ></v-text-field>
                         </v-col>
@@ -121,6 +124,7 @@
                                 label="단가"
                                 hide-details
                                 dense
+                                clearable
                                 @input="onInputPrice(v)"
                             ></v-text-field>
                         </v-col>
@@ -131,6 +135,7 @@
                                 label="보유 수량"
                                 hide-details
                                 dense
+                                clearable
                                 @input="quantity => onInputQuantity(v, quantity)"
                             ></v-text-field>
                         </v-col>
@@ -141,6 +146,7 @@
                                 label="총 매수 금액"
                                 hide-details
                                 dense
+                                clearable
                                 @input="totalEntryPrice => onInputTotalPrice(v, totalEntryPrice)"
                             ></v-text-field>
                         </v-col>
