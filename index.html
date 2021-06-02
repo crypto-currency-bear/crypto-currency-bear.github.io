@@ -15,194 +15,321 @@
             bottom: 0;
         }
     }
+
+    .font-size-1 {
+        font-size: 1.11rem;
+    }
+
+    .white-theme {
+        background-color: #fff;
+    }
 </style>
 <body class="body-2">
-<v-container id="app" fluid style="max-width: 700px;">
-    <v-row>
-        <v-col>
-            <v-subheader><h2>주식, 코인 물타기 계산기</h2></v-subheader>
-            <v-subheader>수수료가 발생할 경우 결과값에 차이가 있을 수 있습니다.</v-subheader>
-        </v-col>
-    </v-row>
+<v-app id="app">
+    <v-container fluid style="max-width: 700px;">
+        <v-row>
+            <v-col>
+                <v-subheader style="padding: 0px;">
+                    <h2>주식, 코인 물타기 계산기</h2>
+                    <v-spacer></v-spacer>
+                    <v-menu
+                        offset-y
+                        left
+                        bottom
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                v-on="on"
+                                v-bind="attrs"
+                                icon
+                            >
+                                <v-icon>mdi-dots-vertical</v-icon>
+                            </v-btn>
+                        </template>
 
-    <v-row>
-        <v-col>
-            <v-card
-                color="#e05a5a"
-                dark
-                tile
-                outlined
-            >
-                <v-card-title style="font-size: 1.10rem;">
-                    <span>현재 보유</span>
-                </v-card-title>
-                <v-card-text>
-                    <v-row>
-                        <v-col cols="6" sm="4">
-                            <v-text-field
-                                ref="accountPrice"
-                                v-model="account.entryPrice"
-                                type="number"
-                                label="매수 평균가"
-                                hide-details
-                                dense
-                                clearable
-                                @input="onInputPrice(account)"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="6" sm="4">
-                            <v-text-field
-                                v-model="account.quantity"
-                                type="number"
-                                label="보유 수량"
-                                hide-details
-                                dense
-                                clearable
-                                @input="val => onInputQuantity(account, val)"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="4">
-                            <v-text-field
-                                v-model="account.totalEntryPrice"
-                                type="number"
-                                label="매수 금액"
-                                hide-details
-                                dense
-                                clearable
-                                @input="val => onInputTotalPrice(account, val)"
-                            ></v-text-field>
-                        </v-col>
-                    </v-row>
-                </v-card-text>
-            </v-card>
-        </v-col>
-    </v-row>
+                        <v-list>
+                            <v-list-item
+                                @click="isShowTabsSettingDialog = true"
+                            >
+                                종목 편집
+                            </v-list-item>
+                            <v-list-item
+                                @click="onClickInitialize"
+                            >
+                                초기화
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
+                </v-subheader>
+                <v-subheader style="padding: 0px;">
+                    수수료가 발생할 경우 결과값에 차이가 있을 수 있습니다.
+                </v-subheader>
+            </v-col>
+        </v-row>
 
-    <v-row
-        v-for="(v, i) in desiredEntries"
-        :key="i"
+        <v-row>
+            <v-col>
+                <v-tabs
+                    v-model="activeTabIndex"
+                    show-arrows
+                    background-color="white"
+                >
+                    <v-tabs-slider color="teal lighten-3"></v-tabs-slider>
+
+                    <v-tab
+                        v-for="(v, i) in tabs"
+                        :key="i"
+                    >
+                        {{ v.name }}
+                    </v-tab>
+                </v-tabs>
+            </v-col>
+        </v-row>
+
+        <v-row>
+            <v-col>
+                <v-card
+                    color="#e05a5a"
+                    dark
+                    tile
+                    outlined
+                >
+                    <v-card-title class="font-size-1">
+                        <span>현재 보유</span>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-row>
+                            <v-col cols="6" sm="4">
+                                <v-text-field
+                                    ref="accountPrice"
+                                    v-model="tabs[activeTabIndex].account.entryPrice"
+                                    type="number"
+                                    label="매수 평균가"
+                                    hide-details
+                                    dense
+                                    clearable
+                                    @input="onInputPrice(tabs[activeTabIndex].account)"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="6" sm="4">
+                                <v-text-field
+                                    v-model="tabs[activeTabIndex].account.quantity"
+                                    type="number"
+                                    label="보유 수량"
+                                    hide-details
+                                    dense
+                                    clearable
+                                    @input="val => onInputQuantity(tabs[activeTabIndex].account, val)"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="4">
+                                <v-text-field
+                                    v-model="tabs[activeTabIndex].account.totalEntryPrice"
+                                    type="number"
+                                    label="매수 금액"
+                                    hide-details
+                                    dense
+                                    clearable
+                                    @input="val => onInputTotalPrice(tabs[activeTabIndex].account, val)"
+                                ></v-text-field>
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+
+        <v-row
+            v-for="(v, i) in tabs[activeTabIndex].desiredEntries"
+            :key="i"
+        >
+            <v-col>
+                <v-card
+                    outlined
+                >
+                    <v-card-title class="font-size-1" >
+                        <v-row justify="center">
+                            <v-col cols="auto">
+                                <span>추가 매수</span>
+                            </v-col>
+                            <v-spacer></v-spacer>
+                            <v-col cols="auto">
+                                <v-btn
+                                    v-if="i === 0"
+                                    icon
+                                    @click="onClickAddDesiredEntry"
+                                >
+                                    <v-icon dark>
+                                        mdi-plus
+                                    </v-icon>
+                                </v-btn>
+                                <v-btn
+                                    v-if="tabs[activeTabIndex].desiredEntries.length > 1"
+                                    icon
+                                    @click="onClickRemoveDesiredEntry(i)"
+                                >
+                                    <v-icon dark>
+                                        mdi-minus
+                                    </v-icon>
+                                </v-btn>
+                            </v-col>
+                        </v-row>
+                    </v-card-title>
+                    <v-card-text>
+                        <v-row>
+                            <v-col cols="6" sm="4">
+                                <v-text-field
+                                    ref="desiredFirstEntries"
+                                    v-model="v.entryPrice"
+                                    type="number"
+                                    label="단가"
+                                    hide-details
+                                    dense
+                                    clearable
+                                    @input="onInputPrice(v)"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="6" sm="4">
+                                <v-text-field
+                                    :value="v.quantity"
+                                    type="number"
+                                    label="보유 수량"
+                                    hide-details
+                                    dense
+                                    clearable
+                                    @input="quantity => onInputQuantity(v, quantity)"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="4">
+                                <v-text-field
+                                    :value="v.totalEntryPrice"
+                                    type="number"
+                                    label="총 매수 금액"
+                                    hide-details
+                                    dense
+                                    clearable
+                                    @input="totalEntryPrice => onInputTotalPrice(v, totalEntryPrice)"
+                                ></v-text-field>
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+
+        <v-row class="sticky-bottom white-theme">
+            <v-col>
+                <v-card
+                    color="#3f5682"
+                    dark
+                    tile
+                    outlined
+                >
+                    <v-card-title class="font-size-1">결과</v-card-title>
+                    <v-card-text>
+                        <v-row>
+                            <v-col cols="6" sm="4">
+                                <v-text-field
+                                    v-model="calculatedAccount.entryPrice"
+                                    type="number"
+                                    label="매수 평균가"
+                                    disabled
+                                    hide-details
+                                    dense
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="6" sm="4">
+                                <v-text-field
+                                    v-model="calculatedAccount.quantity"
+                                    type="number"
+                                    label="보유 수량"
+                                    disabled
+                                    hide-details
+                                    dense
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="4">
+                                <v-text-field
+                                    v-model="calculatedAccount.totalEntryPrice"
+                                    type="number"
+                                    label="매수 금액"
+                                    disabled
+                                    hide-details
+                                    dense
+                                ></v-text-field>
+                            </v-col>
+                        </v-row>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
+
+    <v-dialog
+        v-model="isShowTabsSettingDialog"
+        scrollable
+        max-width="300px"
     >
-        <v-col>
-            <v-card
-                outlined
-            >
-                <v-card-title>
-                    <v-row justify="center">
-                        <v-col cols="auto" style="font-size: 1.10rem;">
-                            <span>추가 매수</span>
-                        </v-col>
-                        <v-spacer></v-spacer>
-                        <v-col cols="auto">
-                            <v-btn
-                                v-if="i === 0"
-                                icon
-                                @click="onClickAddDesiredEntry"
-                            >
-                              <v-icon dark>
+        <v-card>
+            <v-card-title>종목 편집</v-card-title>
+            <v-card-text style="height: 300px">
+                <v-list>
+                    <v-list-item
+                        v-for="(v, i) in tabs"
+                        :key="i"
+                        style="padding: 0px"
+                    >
+                        <v-checkbox
+                            v-model="checkedTabIndexes"
+                            :value="i"
+                            hide-details
+                            dense
+                        >
+                        </v-checkbox>
+                        <v-text-field
+                            v-model="v.name"
+                            hide-details
+                            dense
+                            clearable
+                        ></v-text-field>
+                    </v-list-item>
+                </v-list>
+                <v-row>
+                    <v-col style="text-align: center;">
+                        <v-btn
+                            icon
+                            @click="onClickAddTab"
+                        >
+                            <v-icon dark>
                                 mdi-plus
-                              </v-icon>
-                            </v-btn>
-                            <v-btn
-                                v-if="desiredEntries.length > 1"
-                                icon
-                                @click="onClickRemoveDesiredEntry(i)"
-                            >
-                              <v-icon dark>
-                                mdi-minus
-                              </v-icon>
-                            </v-btn>
-                        </v-col>
-                    </v-row>
-                </v-card-title>
-                <v-card-text>
-                    <v-row>
-                        <v-col cols="6" sm="4">
-                            <v-text-field
-                                ref="desiredFirstEntries"
-                                v-model="v.entryPrice"
-                                type="number"
-                                label="단가"
-                                hide-details
-                                dense
-                                clearable
-                                @input="onInputPrice(v)"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="6" sm="4">
-                            <v-text-field
-                                :value="v.quantity"
-                                type="number"
-                                label="보유 수량"
-                                hide-details
-                                dense
-                                clearable
-                                @input="quantity => onInputQuantity(v, quantity)"
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="4">
-                            <v-text-field
-                                :value="v.totalEntryPrice"
-                                type="number"
-                                label="총 매수 금액"
-                                hide-details
-                                dense
-                                clearable
-                                @input="totalEntryPrice => onInputTotalPrice(v, totalEntryPrice)"
-                            ></v-text-field>
-                        </v-col>
-                    </v-row>
-                </v-card-text>
-            </v-card>
-        </v-col>
-    </v-row>
-
-    <v-row class="sticky-bottom" style="background-color: white;">
-        <v-col>
-            <v-card
-                color="#3f5682"
-                dark
-                tile
-                outlined
-            >
-                <v-card-title style="font-size: 1.10rem;">결과</v-card-title>
-                <v-card-text>
-                    <v-row>
-                        <v-col cols="6" sm="4">
-                            <v-text-field
-                                v-model="calculatedAccount.entryPrice"
-                                type="number"
-                                label="매수 평균가"
-                                disabled
-                                hide-details
-                                dense
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="6" sm="4">
-                            <v-text-field
-                                v-model="calculatedAccount.quantity"
-                                type="number"
-                                label="보유 수량"
-                                disabled
-                                hide-details
-                                dense
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" sm="4">
-                            <v-text-field
-                                v-model="calculatedAccount.totalEntryPrice"
-                                type="number"
-                                label="매수 금액"
-                                disabled
-                                hide-details
-                                dense
-                            ></v-text-field>
-                        </v-col>
-                    </v-row>
-                </v-card-text>
-            </v-card>
-        </v-col>
-    </v-row>
-</v-container>
+                            </v-icon>
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-card-text>
+            <v-card-actions>
+                <v-row>
+                    <v-col style="text-align: center;">
+                        <v-btn
+                            text
+                            color="#e05a5a"
+                            @click="onClickRemoveTabs"
+                        >
+                            선택 삭제
+                        </v-btn>
+                        <v-btn
+                            text
+                            color="#000"
+                            @click="onClickCloseTabSettingDialog"
+                        >
+                            닫기
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+</v-app>
 
 </body>
 </html>
