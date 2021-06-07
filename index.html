@@ -335,19 +335,25 @@
             <v-divider></v-divider>
             <v-card-actions>
                 <v-row>
-                    <v-col style="text-align: center;">
+                    <v-col cols="3">
                         <v-btn
+                            block
                             depressed
                             tile
-                            color="error"
+                            outlined
+                            color="#3f5682"
                             @click="onClickRemoveTabs"
                         >
                             삭제
                         </v-btn>
+                    </v-col>
+                    <v-col cols="9">
                         <v-btn
+                            block
                             depressed
                             tile
-                            color="primary"
+                            dark
+                            color="#3f5682"
                             @click="onClickSaveTabs"
                         >
                             저장
