@@ -126,7 +126,6 @@ const app = new Vue({
     initialize (onAfterInitialize = () => {}) {
       this.activeTabIndex = 0
       this.tabs = [{ ...this.getInitTab() }]
-      this.clearCheckedTabIndexes()
 
       onAfterInitialize()
     },
@@ -162,7 +161,8 @@ const app = new Vue({
       return {
         name: '종목명',
         account: { ...this.getInitCryptoCurrency() },
-        desiredEntries: [ this.getInitCryptoCurrency() ]
+        desiredEntries: [ this.getInitCryptoCurrency() ],
+        index: 0
       }
     },
     correctTabIndexes () {
