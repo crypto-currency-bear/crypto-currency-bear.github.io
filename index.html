@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" charset="UTF-8">
     <meta name="description" content="주식, 코인 물타기 계산기. 보유 평단가에서 추가 매수할 경우 적용되는 결과 평단가를 웹페이지에서 자동 계산해주며, 종목별 분할 매수 계산을 지원한다.">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F6S752DBV1"></script>
@@ -59,11 +59,6 @@
 
                         <v-list>
                             <v-list-item
-                                @click="isShowTabsSettingDialog = true"
-                            >
-                                종목 편집
-                            </v-list-item>
-                            <v-list-item
                                 @click="onClickInitialize"
                             >
                                 초기화
@@ -78,19 +73,25 @@
         </v-row>
 
         <v-row>
-            <v-col>
-                <v-tabs
+            <v-col style="display: flex;">
+                <v-select
                     v-model="activeTabIndex"
+                    :items="tabs"
+                    item-text="name"
+                    item-value="index"
+                    hide-details
+                    :menu-props="{ offsetY: true, left: true, bottom: true }"
+                    prepend-icon="mdi-bitcoin"
                     color="#000"
-                    show-arrows
+                    style="margin-top: 0px; padding-top: 0px;"
                 >
-                    <v-tab
-                        v-for="(v, i) in tabs"
-                        :key="i"
-                    >
-                        {{ v.name }}
-                    </v-tab>
-                </v-tabs>
+                </v-select>
+                <v-btn
+                    icon
+                    @click="onClickOpenTabSettingDialog"
+                >
+                    <v-icon>mdi-cog</v-icon>
+                </v-btn>
             </v-col>
         </v-row>
 
@@ -153,6 +154,7 @@
         >
             <v-col>
                 <v-card
+                    tile
                     outlined
                 >
                     <v-card-title class="font-size-1" >
@@ -283,12 +285,12 @@
             <v-card-text style="height: 300px">
                 <v-list>
                     <v-list-item
-                        v-for="(v, i) in tabs"
+                        v-for="(v, i) in expectedTabs"
                         :key="i"
                         style="padding: 0px"
                     >
                         <v-checkbox
-                            v-model="checkedTabIndexes"
+                            v-model="v.isChecked"
                             :value="i"
                             hide-details
                             dense
@@ -328,6 +330,13 @@
                         <v-btn
                             text
                             color="#000"
+                            @click="onClickSaveTabs"
+                        >
+                            저장
+                        </v-btn>
+                        <v-btn
+                            text
+                            color="#929292"
                             @click="onClickCloseTabSettingDialog"
                         >
                             닫기
