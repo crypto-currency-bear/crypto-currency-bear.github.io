@@ -81,7 +81,6 @@
                     item-value="index"
                     hide-details
                     :menu-props="{ offsetY: true, left: true, bottom: true }"
-                    prepend-icon="mdi-bitcoin"
                     color="#000"
                     style="margin-top: 0px; padding-top: 0px;"
                 >
@@ -148,6 +147,19 @@
             </v-col>
         </v-row>
 
+        <v-row>
+            <v-col style="text-align: center;">
+                <v-btn
+                    icon
+                    @click="onClickAddDesiredEntry"
+                >
+                    <v-icon dark>
+                        mdi-plus
+                    </v-icon>
+                </v-btn>
+            </v-col>
+        </v-row>
+
         <v-row
             v-for="(v, i) in tabs[activeTabIndex].desiredEntries"
             :key="i"
@@ -164,15 +176,6 @@
                             </v-col>
                             <v-spacer></v-spacer>
                             <v-col cols="auto">
-                                <v-btn
-                                    v-if="i === 0"
-                                    icon
-                                    @click="onClickAddDesiredEntry"
-                                >
-                                    <v-icon dark>
-                                        mdi-plus
-                                    </v-icon>
-                                </v-btn>
                                 <v-btn
                                     v-if="tabs[activeTabIndex].desiredEntries.length > 1"
                                     icon
