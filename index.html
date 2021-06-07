@@ -37,6 +37,10 @@
     .v-label {
         font-size: 14px;
     }
+
+    .v-dialog {
+        overflow-Y: hidden;
+    }
 </style>
 <body class="body-2">
 <v-app id="app">
@@ -298,10 +302,10 @@
     <v-dialog
         v-model="isShowTabsSettingDialog"
         scrollable
-        max-width="300px"
+        max-width="320px"
     >
         <v-card>
-            <v-card-text style="height: 350px">
+            <v-card-text style="height: 370px">
                 <v-list>
                     <v-list-item
                         v-for="(v, i) in expectedTabs"
@@ -345,6 +349,7 @@
                             tile
                             outlined
                             color="#66a8c7"
+                            style="padding: 20px 5px;"
                             @click="onClickRemoveTabs"
                         >
                             삭제
@@ -354,6 +359,7 @@
                             tile
                             dark
                             color="#66a8c7"
+                            style="padding: 20px 5px;"
                             @click="onClickSaveTabs"
                         >
                             저장
@@ -361,6 +367,7 @@
                         <v-btn
                             depressed
                             tile
+                            style="padding: 20px 5px;"
                             @click="onClickCloseTabSettingDialog"
                         >
                             취소
