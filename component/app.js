@@ -66,6 +66,7 @@ const app = new Vue({
       this.tabs = this.deepCopy(this.expectedTabs)
       this.correctTabIndexes()
 
+      this.saveAll()
       this.onClickCloseTabSettingDialog()
     },
     onClickOpenTabSettingDialog () {
