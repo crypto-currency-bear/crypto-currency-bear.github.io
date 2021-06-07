@@ -9,8 +9,8 @@ const app = new Vue({
     return {
       activeTabIndex: 0,
       tabs: [{ ...this.getInitTab() }],
-      isShowTabsSettingDialog: false,
-      checkedTabIndexes: []
+      expectedTabs: [],
+      isShowTabsSettingDialog: false
     }
   },
   computed: {
@@ -26,10 +26,16 @@ const app = new Vue({
     }
   },
   mounted () {
-    this.initialize(this.getAllStoredTabs)
+    this.initialize(() => {
+        this.getAllStoredTabs()
+        this.correctTabIndexes()
+    })
     this.focusAccountEntryPrice()
   },
   methods: {
+    onChangeActiveTab (event) {
+      console.log(event)
+    },
     onInputPrice (currency) {
       currency.totalEntryPrice = currency.entryPrice || currency.quantity ? currency.entryPrice * currency.quantity : null
 
@@ -48,13 +54,30 @@ const app = new Vue({
       this.saveAll()
     },
     onClickAddTab () {
-      this.tabs = this.tabs.concat([{ ...this.getInitTab() }])
+      this.expectedTabs = this.expectedTabs.concat([{ ...this.getInitTab() }])
+      this.correctTabIndexes()
     },
     onClickRemoveTabs () {
-      this.tabs = this.tabs.filter((v, i) => this.checkedTabIndexes.indexOf(i) < 0)
+      this.expectedTabs = this.expectedTabs.filter(v => !v.isChecked)
+      this.correctTabIndexes()
+      this.clearCheckedTabIndexes()
+    },
+    onClickSaveTabs () {
+      this.tabs = this.deepCopy(this.expectedTabs)
+      this.correctTabIndexes()
+
+      this.onClickCloseTabSettingDialog()
+    },
+    onClickOpenTabSettingDialog () {
+      this.clearCheckedTabIndexes()
+      this.expectedTabs = this.deepCopy(this.tabs)
+
+      this.isShowTabsSettingDialog = true
     },
     onClickCloseTabSettingDialog () {
-      this.checkedTabIndexes = []
+      this.clearCheckedTabIndexes()
+      this.expectedTabs = []
+
       this.isShowTabsSettingDialog = false
     },
     onClickInitialize () {
@@ -84,12 +107,11 @@ const app = new Vue({
 
       return accountEntryPrice + desiredTotalEntryPrice
     },
-    getInitCryptoCurrency () {
-      return {
-        entryPrice: null,
-        quantity: null,
-        totalEntryPrice: null
-      }
+    saveAll () {
+      localStorage.setItem(localStorageKey.tabs, JSON.stringify(this.tabs))
+    },
+    deleteAllStoredTabs () {
+      localStorage.removeItem(localStorageKey.tabs)
     },
     parseToInteger (value) {
       return Number(value) || 0
@@ -103,11 +125,26 @@ const app = new Vue({
     initialize (onAfterInitialize = () => {}) {
       this.activeTabIndex = 0
       this.tabs = [{ ...this.getInitTab() }]
+      this.clearCheckedTabIndexes()
 
       onAfterInitialize()
     },
-    saveAll () {
-      localStorage.setItem(localStorageKey.tabs, JSON.stringify(this.tabs))
+    clearCheckedTabIndexes () {
+      this.expectedTabs = this.expectedTabs.map(v => {
+        v.isChecked = null
+
+        return v
+      })
+    },
+    deepCopy (source) {
+      return JSON.parse(JSON.stringify(source))
+    },
+    getInitCryptoCurrency () {
+      return {
+        entryPrice: null,
+        quantity: null,
+        totalEntryPrice: null
+      }
     },
     getAllStoredTabs () {
       const localStorageKeys = Object.keys(localStorage)
@@ -120,15 +157,19 @@ const app = new Vue({
         }
       }
     },
-    deleteAllStoredTabs () {
-      localStorage.removeItem(localStorageKey.tabs)
-    },
     getInitTab () {
       return {
         name: '종목명',
         account: { ...this.getInitCryptoCurrency() },
         desiredEntries: [ this.getInitCryptoCurrency() ]
       }
+    },
+    correctTabIndexes () {
+      this.tabs = this.tabs.map((v, i) => {
+        v.index = i
+
+        return v
+      })
     }
   }
 })
