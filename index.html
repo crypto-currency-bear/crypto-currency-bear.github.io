@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>주식, 코인 물타기 계산기 (분할 매수 지원)</title>
+    <title>주식, 코인 평단가 계산기 (분할 매수 지원)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" charset="UTF-8">
-    <meta name="description" content="주식, 코인 물타기 계산기. 보유 평단가에서 추가 매수할 경우 적용되는 결과 평단가를 웹페이지에서 자동 계산해주며, 종목별 분할 매수 계산을 지원한다.">
+    <meta name="description" content="주식, 코인 평단가, 물타기 계산기. 보유 평단가에서 추가 매수할 경우 적용되는 결과 평단가를 웹페이지에서 자동 계산해주며, 종목별 분할 매수 계산을 지원한다.">
     <link href="https://user-images.githubusercontent.com/84438774/121041602-dafb2200-c7ed-11eb-8882-56d85759d590.png" rel="shortcut icon">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link href="./css/app.css" rel="stylesheet">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F6S752DBV1"></script>
     <script>
@@ -18,38 +19,14 @@
         gtag('config', 'G-F6S752DBV1');
     </script>
 </head>
-<style>
-    @media only screen and (min-width: 600px) {
-        .sticky-bottom {
-            position: -webkit-sticky;
-            position: sticky;
-            bottom: 0;
-        }
-    }
 
-    .font-size-1 {
-        font-size: 16px;
-    }
-
-    .white-theme {
-        background-color: #fff;
-    }
-
-    .v-label {
-        font-size: 14px;
-    }
-
-    .v-dialog {
-        overflow-Y: hidden;
-    }
-</style>
 <body class="body-2">
 <v-app id="app">
-    <v-container fluid style="max-width: 700px;">
+    <v-container fluid class="container">
         <v-row>
             <v-col>
                 <v-subheader style="padding: 0px;">
-                    <h2>주식, 코인 물타기 계산기</h2>
+                    <h2>주식, 코인 평단가 계산기</h2>
                     <v-spacer></v-spacer>
                     <v-menu
                         offset-y
@@ -252,7 +229,7 @@
             </v-col>
         </v-row>
 
-        <v-row class="sticky-bottom white-theme">
+        <v-row class="sticky-bottom bg-white">
             <v-col>
                 <v-card
                     color="#66a8c7"
