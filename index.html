@@ -107,6 +107,7 @@
                                     ref="accountPrice"
                                     v-model="tabs[activeTabIndex].account.entryPrice"
                                     type="number"
+                                    inputmode="numeric"
                                     label="매수 평균가"
                                     hide-details
                                     dense
@@ -118,6 +119,7 @@
                                 <v-text-field
                                     v-model="tabs[activeTabIndex].account.quantity"
                                     type="number"
+                                    inputmode="numeric"
                                     label="보유 수량"
                                     hide-details
                                     dense
@@ -129,6 +131,7 @@
                                 <v-text-field
                                     v-model="tabs[activeTabIndex].account.totalEntryPrice"
                                     type="number"
+                                    inputmode="numeric"
                                     label="매수 금액"
                                     hide-details
                                     dense
@@ -194,6 +197,7 @@
                                     ref="desiredFirstEntries"
                                     v-model="v.entryPrice"
                                     type="number"
+                                    inputmode="numeric"
                                     label="단가"
                                     hide-details
                                     dense
@@ -205,6 +209,7 @@
                                 <v-text-field
                                     :value="v.quantity"
                                     type="number"
+                                    inputmode="numeric"
                                     label="보유 수량"
                                     hide-details
                                     dense
@@ -216,6 +221,7 @@
                                 <v-text-field
                                     :value="v.totalEntryPrice"
                                     type="number"
+                                    inputmode="numeric"
                                     label="총 매수 금액"
                                     hide-details
                                     dense
@@ -244,6 +250,7 @@
                                 <v-text-field
                                     v-model="calculatedAccount.entryPrice"
                                     type="number"
+                                    inputmode="numeric"
                                     label="매수 평균가"
                                     disabled
                                     hide-details
@@ -254,6 +261,7 @@
                                 <v-text-field
                                     v-model="calculatedAccount.quantity"
                                     type="number"
+                                    inputmode="numeric"
                                     label="보유 수량"
                                     disabled
                                     hide-details
@@ -264,6 +272,7 @@
                                 <v-text-field
                                     v-model="calculatedAccount.totalEntryPrice"
                                     type="number"
+                                    inputmode="numeric"
                                     label="매수 금액"
                                     disabled
                                     hide-details
